@@ -6,6 +6,7 @@ type Project struct {
 	gorm.Model
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	Tasks       []Task `json:"tasks" gorm:"foreignKey:ProjectID" validate:"-"`
 }
 
 func CreateProject(project Project) Project {

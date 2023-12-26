@@ -6,13 +6,15 @@ import (
 
 type Task struct {
 	gorm.Model
-	ProjectID   string `json:"project_id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
+	ProjectID   uint   `json:"project_id" validate:"required"`
+	Name        string `json:"name" validate:"required,max=256"`
+	Description string `json:"description" validate:"max=512"`
 }
 
 func CreateTask(task Task) Task {
-	db.Create(&task)
+	if err := db.Create(&task).Error; err != nil {
+		panic(err)
+	}
 	return task
 }
 

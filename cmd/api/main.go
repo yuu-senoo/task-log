@@ -30,6 +30,21 @@ func main() {
 
 	// setup router
 	router := gin.Default()
+
+	// HTTP 404 error handling
+	router.NoRoute(func(c *gin.Context) {
+		c.JSON(404, gin.H{
+			"message": "Not Found",
+		})
+	})
+	// HTTP 500 error handling
+	router.HandleMethodNotAllowed = true
+	router.NoMethod(func(c *gin.Context) {
+		c.JSON(500, gin.H{
+			"message": "Internal Server Error",
+		})
+	})
+
 	// user
 	router.GET("/users", web.GetUsers)
 	router.POST("/user", web.CreateUser)
